@@ -1,1 +1,10 @@
-<p>loans works!</p>
+<div class="p-3">
+  @switch (page$ | async) {
+    @case (pagesEnum.SEARCH) {
+      <app-search-loan></app-search-loan>
+    }
+    @case (pagesEnum.RESULT) {
+      <app-result-loan></app-result-loan>
+    }
+  }
+</div>

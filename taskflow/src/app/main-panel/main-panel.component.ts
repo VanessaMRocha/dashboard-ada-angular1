@@ -6,10 +6,11 @@ import { TransactionsComponent } from './pages/transactions/transactions.compone
 import { LoginComponent } from './pages/login/login.component';
 import { AsyncPipe } from '@angular/common';
 import { TransfersComponent } from "./pages/transfers/transfers.component";
+import { LoansComponent } from "./pages/loans/loans.component";
 
 @Component({
   selector: 'app-main-panel',
-  imports: [DashboardComponent, TransactionsComponent, AsyncPipe, LoginComponent, TransfersComponent],
+  imports: [DashboardComponent, TransactionsComponent, AsyncPipe, LoginComponent, TransfersComponent, LoansComponent],
   templateUrl: './main-panel.component.html',
   styleUrl: './main-panel.component.css',
 })

@@ -1,0 +1,66 @@
+<span class="text-azul text-bold text-md"> Simule seu crédito</span>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-4">
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Valor Solicitado</mat-label>
+        <input
+        matInput
+        placeholder="Informe o valor"
+        formControlName="amount"
+        mask="separator.2"
+        thousandSeparator="."
+        decimalMarker=","
+        prefix="R$ "
+        [allowNegativeNumbers]="false"
+        />
+    </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Quantidade de Parcelas</mat-label>
+        <input
+        matInput
+        placeholder="Informe a quantidade de parcelas"
+        formControlName="parcelas"
+        />
+        @if (form.get("parcelas")?.errors?.["min"]) {
+            <mat-error>Mínimo 12 parcelas</mat-error>
+        }
+        @if (form.get("parcelas")?.errors?.["max"]) {
+            <mat-error>Máximo 300 parcelas</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+        <mat-label>Taxa de Juros Anual</mat-label>
+        <input
+            matInput
+            placeholder="Informe a taxa de juros anual"
+            formControlName="interestRate"
+            mask="separator.2"
+            thousandSeparator="."
+            decimalMarker=","
+            suffix=" %"
+            [allowNegativeNumbers]="false"
+        />
+        @if (form.get("interestRate")?.errors?.["max"]) {
+            <mat-error>Taxa máxima 10%</mat-error>
+        }
+        @if (form.get("interestRate")?.errors?.["min"]) {
+            <mat-error>Taxa mínima 5%</mat-error>
+        }
+
+    </mat-form-field>
+
+    <div class="mt-3">
+        <button
+        type="submit"
+        class="btn btn-laranja me-2"
+        [disabled]="form.invalid"
+        >
+        Realizar Simulação
+        </button>
+    </div>
+
+</form>
+
+

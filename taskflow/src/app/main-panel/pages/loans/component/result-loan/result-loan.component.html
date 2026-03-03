@@ -1,0 +1,21 @@
+<mat-card class="mt-3" *ngIf="result">
+  <mat-card-header>
+    <mat-card-title class="text-azul text-bold text-md mb-3">
+      Resultado da Simulação
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p><strong>Parcela Mensal:</strong> R$ {{ result.monthlyInstallment | number:'1.2-2' }}</p>
+    <p><strong>Total Pago:</strong> R$ {{ result.totalPayment | number:'1.2-2' }}</p>
+    <p><strong>Total de Juros:</strong> R$ {{ result.totalInterest | number:'1.2-2' }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button class="btn btn-outline-primary mt-3" (click)="backToSearch()">
+      Voltar
+    </button>
+  </mat-card-actions>
+</mat-card>
+
+<p *ngIf="!result" class="text-danger">
+  Nenhum resultado disponível. Volte e faça a simulação novamente.
+</p>
