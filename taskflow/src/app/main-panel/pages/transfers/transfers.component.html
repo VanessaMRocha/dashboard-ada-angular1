@@ -1,0 +1,10 @@
+<div class="p-3">
+  @switch (page$ | async) {
+    @case (pagesEnum.LIST) {
+      <app-list-transfers></app-list-transfers>
+    }
+    @case (pagesEnum.CREATE) {
+      <app-create-transfer></app-create-transfer>
+    }
+  }
+</div>

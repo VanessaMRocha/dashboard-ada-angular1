@@ -1,0 +1,62 @@
+<div class="p-3">
+  <button class="btn btn-laranja mb-3" (click)="redirectToCreate()">
+    Adicionar Transação
+  </button>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar</mat-label>
+      <input matInput [(ngModel)]="search" />
+    </mat-form-field>
+  </div>
+  <div class="ordenacao mb-3">
+    <span class="text-xsm">Ordenar por: </span><br>
+    <button class="btn btn-azul btn-small mr-5" (click)="sortField='amount'; sortAsc=!sortAsc">Valor</button>
+    <button class="btn btn-azul btn-small mr-5" (click)="sortField='type'; sortAsc=!sortAsc">Tipo</button>
+    <button class="btn btn-azul btn-small mr-5" (click)="sortField='date'; sortAsc=!sortAsc">Data</button>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Data</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Valor</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of filterTransactions(); track $index) {
+        <tr>
+          <td>{{ item.date | date: "dd/MM/yyyy" }}</td>
+          <td>{{ item.description }}</td>
+          <td [class]="item.amount | negativeValues">
+            {{ item.amount | currency: "BRL" : "symbol" : "1.2-2" : "pt-BR" }}
+          </td>
+          <td>
+            @if (item.type === transactionTypesEnum.INCOME) {
+              Entrada
+            } @else if (item.type === transactionTypesEnum.EXPENSE) {
+              Saída
+            } @else {
+              Transferência
+            }
+          </td>
+          <td>
+            <button *ngIf="item.type != transactionTypesEnum.TRANSFER"
+              class="btn btn-sm btn-outline-primary me-2"
+              (click)="onEdit(item.id)"
+            >
+              Editar
+            </button >
+            <button *ngIf="item.type != transactionTypesEnum.TRANSFER"
+              class="btn btn-sm btn-outline-danger"
+              (click)="onDelete(item.id)"
+            >
+              Excluir
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

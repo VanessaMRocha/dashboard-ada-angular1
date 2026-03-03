@@ -1,0 +1,110 @@
+{
+  "account": {
+    "id": 1,
+    "name": "Cliente Demo",
+    "balance": 4032.5
+  },
+  "transactions": [
+    {
+      "id": "1",
+      "date": "2026-02-01T10:00:00",
+      "description": "Salário",
+      "amount": 4500,
+      "type": "income"
+    },
+    {
+      "id": "2",
+      "date": "2026-02-02T14:32:00",
+      "description": "Supermercado",
+      "amount": -230.5,
+      "type": "expense"
+    },
+    {
+      "id": "3",
+      "date": "2026-02-03T20:10:00",
+      "description": "Netflix",
+      "amount": -39.9,
+      "type": "expense"
+    },
+    {
+      "id": "4",
+      "date": "2026-02-05T09:15:00",
+      "description": "Freelance",
+      "amount": 1000,
+      "type": "income"
+    },
+    {
+      "date": "2026-01-02T03:00:00.000Z",
+      "description": "Viagem",
+      "amount": -1000,
+      "type": "expense",
+      "id": "87ef"
+    },
+    {
+      "id": "3d38",
+      "date": "2026-03-01T03:00:00.000Z",
+      "description": "Aluguel",
+      "amount": 500,
+      "type": "income"
+    },
+    {
+      "id": "8a8e",
+      "date": "2026-03-02",
+      "description": "Energia",
+      "amount": -300,
+      "type": "expense"
+    },
+    {
+      "id": "eae5",
+      "date": "2026-03-02T03:00:00.000Z",
+      "description": "Ajuda de custo",
+      "amount": 300,
+      "type": "income"
+    },
+    {
+      "id": "fd60",
+      "date": "2026-03-02",
+      "description": "Celular",
+      "amount": -54,
+      "type": "expense"
+    },
+    {
+      "id": "3120",
+      "date": "2026-02-12T03:00:00.000Z",
+      "description": "Consumo de água",
+      "amount": -123.1,
+      "type": "expense"
+    },
+    {
+      "id": "1035",
+      "date": "2026-03-02",
+      "description": "Envio de Pix",
+      "amount": -130,
+      "type": "expense"
+    }
+  ],
+  "transfers": [
+    {
+      "id": "e14f",
+      "date": "2026-03-02",
+      "destination": "987654-44",
+      "amount": -130,
+      "description": "Pagamento de multa"
+    },
+    {
+      "id": "d501",
+      "date": "2026-03-02",
+      "destination": "987602-20",
+      "amount": -170,
+      "description": "Diarista"
+    },
+    {
+      "id": "6168",
+      "date": "2026-03-02",
+      "destination": "333333-33",
+      "amount": -350,
+      "description": "Compra de eletrodoméstico"
+    }
+  ],
+  "loans": []
+}

@@ -1,0 +1,26 @@
+.sidebar {
+  height: calc(100vh - 64px);
+  background: #005CA9;
+  color: #fff;
+  padding: 48px 24px;
+}
+
+.menu-item {
+  margin: 16px 0;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  background-color: #004c8c;
+}
+
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* fundo translúcido */
+}
+
+.menu-login {
+  margin: 16px 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background-color: #004c8c;
+}

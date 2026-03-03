@@ -1,0 +1,37 @@
+<div class="p-3">
+  <button class="btn btn-laranja mb-3" (click)="redirectToCreate()">
+    Realizar Transferência
+  </button>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar</mat-label>
+      <input matInput [(ngModel)]="search" />
+    </mat-form-field>
+  </div>
+  <div class="ordenacao mb-3">
+    <span class="text-xsm">Ordenar por: </span><br>
+    <button class="btn btn-azul btn-small mr-5" (click)="sortField='amount'; sortAsc=!sortAsc">Valor</button>
+    <button class="btn btn-azul btn-small mr-5" (click)="sortField='date'; sortAsc=!sortAsc">Data</button>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Data</th>
+        <th scope="col">Conta Destino</th>
+        <th scope="col">Valor</th>
+        <th scope="col">Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of filterTransfers(); track $index) {
+        <tr>
+          <td>{{ item.date | date: "dd/MM/yyyy" }}</td>
+          <td>{{ item.destination }}</td>
+          <td [class]="item.amount | negativeValues" >{{ item.amount | currency: "BRL" : "symbol" : "1.2-2" : "pt-BR" }}</td>
+          <td>{{ item.description }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+

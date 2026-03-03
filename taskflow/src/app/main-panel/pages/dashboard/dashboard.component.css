@@ -1,0 +1,21 @@
+.dashboard-card {
+    --mdc-elevated-card-container-elevation: 0px 4px 10px #004c8c;
+}
+
+.transacoes-card{
+    --mdc-outlined-card-outline-color: #004c8c;
+}
+
+.dashboard-card mat-card-header,
+.dashboard-card mat-card-content {
+  display: flex;
+  justify-content: center; /* centraliza horizontalmente */
+  text-align: center;      /* garante alinhamento do texto */
+}
+
+.dashboard-card mat-card-title {
+  text-align: center;
+  font-size: 2rem;  
+  width: 100%; /* ocupa toda a largura para alinhar certinho */
+}
+

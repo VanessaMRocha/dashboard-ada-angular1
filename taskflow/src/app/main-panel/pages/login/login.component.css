@@ -1,0 +1,23 @@
+.login-container {
+  width: 300px;
+  margin: 100px auto;
+  padding: 20px;
+  background: linear-gradient(to right, #005CA9, #54BBAB);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  color: #fff;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+}
+

@@ -1,0 +1,12 @@
+<aside class="sidebar">
+  <div *ngIf="exibeLogin">
+      <div class="menu-login">Login</div>
+  </div>
+  <div *ngIf="!exibeLogin">
+      <div class="menu-item" 
+        *ngFor="let item of menuItems"
+        (click)="redirectToPage(item.page)">
+        {{ item.label }}
+      </div>
+  </div>
+</aside>
