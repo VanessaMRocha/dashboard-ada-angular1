@@ -1,6 +1,6 @@
-<mat-card class="mt-3" *ngIf="result">
+<mat-card class="m-3 mt-5" *ngIf="result">
   <mat-card-header>
-    <mat-card-title class="text-azul text-bold text-md mb-3">
+    <mat-card-title class="text-azul text-bold text-md">
       Resultado da Simulação
     </mat-card-title>
   </mat-card-header>
@@ -10,12 +10,11 @@
     <p><strong>Total de Juros:</strong> R$ {{ result.totalInterest | number:'1.2-2' }}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button class="btn btn-outline-primary mt-3" (click)="backToSearch()">
+    <button mat-raised-button 
+    class="btn btn-azul m-5" 
+    routerLink="/emprestimo">
       Voltar
     </button>
   </mat-card-actions>
 </mat-card>
 
-<p *ngIf="!result" class="text-danger">
-  Nenhum resultado disponível. Volte e faça a simulação novamente.
-</p>

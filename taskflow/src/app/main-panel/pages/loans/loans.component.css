@@ -1,0 +1,23 @@
+.loan-card {
+  text-align: center;
+  padding: 1rem;
+  background: hsl(125, 39%, 94%); 
+  border-left: 6px solid #2e7d32;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.loan-card mat-card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+}
+
+.loan-card mat-card-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.loan-simular { align-items: center;}

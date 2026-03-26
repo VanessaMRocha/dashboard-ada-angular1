@@ -1,12 +1,11 @@
 <aside class="sidebar">
-  <div *ngIf="exibeLogin">
-      <div class="menu-login">Login</div>
-  </div>
-  <div *ngIf="!exibeLogin">
-      <div class="menu-item" 
-        *ngFor="let item of menuItems"
-        (click)="redirectToPage(item.page)">
-        {{ item.label }}
+    @for (item of menuItems; track item.label) {
+      <div class="menu-item"
+           [routerLink]="item.link"
+           routerLinkActive="active"
+          >
+        <mat-icon class="mr-3" aria-hidden="true">{{item.icon}}</mat-icon>
+        {{item.label | translate }}
       </div>
-  </div>
+    }
 </aside>

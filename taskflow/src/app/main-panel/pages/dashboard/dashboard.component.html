@@ -1,106 +1,125 @@
-<div class="flex flex-column">
-  <div class="p-3">
-    <mat-card class="dashboard-card">
+<header class="dashboard-header">
+  <h2>Dashboard Financeiro</h2>
+  <button 
+    mat-icon-button 
+    (click)="toogleBalance()" 
+    [attr.aria-label]="isBalanceVisible() ? 'Esconder saldo' : 'Mostrar saldo'">
+    <mat-icon>
+      {{ isBalanceVisible() ? 'visibility' : 'visibility_off' }}
+    </mat-icon>
+  </button>
+</header>
+
+<main class="dashboard-main">
+  <section class="cards-grid">
+    <mat-card class="dashboard-card saldo-card">
       <mat-card-header>
-        <mat-card-title 
-        *ngIf="account"
-        [class]="account.balance | negativeValues">
-          {{ account.balance | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        <mat-icon>account_balance_wallet</mat-icon>
+        <mat-card-title>
+          {{ isBalanceVisible() ? (accountData()?.balance ?? 0 | currency:'BRL':'symbol':'1.2-2':'pt-BR') : 'R$ *****' }}
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content>
-        <!-- <p>Cliente: {{ account?.name }}</p> -->
-        <p class="text-xsm">Saldo atual</p>
-      </mat-card-content>
+      <mat-card-content>Saldo atual</mat-card-content>
     </mat-card>
-  </div>
 
-  <div class="flex m-3">
+    <mat-card class="dashboard-card receita-card">
+      <mat-card-header>
+        <mat-icon class="text-verde">trending_up</mat-icon>
+        <mat-card-title>
+          {{ isBalanceVisible() ? ( totalIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' ) : 'R$ *****' }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Receitas (mês)</mat-card-content>
+    </mat-card>
 
-      <div class="p-1 w-50">
-        <mat-card class="dashboard-card">
-          <mat-card-header>
-            <mat-card-title 
-            *ngIf="account"
-            class="text-success text-xsm">
-              <span class="text-md">{{ totalIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <p class="text-xsm text-success">Receitas (mês)</p>
-          </mat-card-content>
-        </mat-card>
-      </div>
+    <mat-card class="dashboard-card despesa-card">
+      <mat-card-header>
+        <mat-icon class="text-vermelho">trending_down</mat-icon>
+        <mat-card-title>
+          {{ isBalanceVisible() ? ('-' + (totalExpense | currency:'BRL':'symbol':'1.2-2':'pt-BR')) : 'R$ *****' }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>Despesas (mês)</mat-card-content>
+    </mat-card>
+  </section>
 
-      <div class="p-1 w-50">
-        <mat-card class="dashboard-card">
-          <mat-card-header>
-            <mat-card-title 
-            *ngIf="account"
-            class="text-danger">
-              <span class="text-md">-{{ totalExpense | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <p class="text-xsm text-danger">Despesas (mês)</p>
-          </mat-card-content>
-        </mat-card>
-      </div>
-  </div>
+  <section class="search-bar mt-5">
+    <h2 class="mb-3">Últimas transações - {{ currentMonthLabel }}</h2>
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar transações</mat-label>
+      <input matInput [(ngModel)]="search" aria-label="Buscar transações" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </section>
 
-</div>
+  <section class="ordenacao">
+    <span class="text-xsm">Ordenar por:</span>
+    <div class="ordenacao-buttons">
+      <button class="btn btn-azul btn-small mr-5" (click)="sortField='amount'; sortAsc=!sortAsc">Valor</button>
+      <button class="btn btn-azul btn-small mr-5" (click)="sortField='type'; sortAsc=!sortAsc">Tipo</button>
+      <button class="btn btn-azul btn-small mr-5" (click)="sortField='date'; sortAsc=!sortAsc">Data</button>
+    </div>
+  </section>
 
-<div class="px-3 pt-3">
-  <mat-form-field appearance="outline">
-    <mat-label>Buscar</mat-label>
-    <input matInput [(ngModel)]="search" />
-  </mat-form-field>
-</div>
-
-<div class="text-azul-fechado text-lg text-bold pl-5 pb-3">
-  Últimas transações - {{ currentMonthLabel }}
-</div>
-
-<div class="ordenacao mb-3 pl-5">
-  <span class="text-xsm">Ordenar por: </span><br>
-  <button class="btn btn-laranja btn-small mr-5" (click)="sortField='amount'; sortAsc=!sortAsc">Valor</button>
-  <button class="btn btn-laranja btn-small mr-5" (click)="sortField='type'; sortAsc=!sortAsc">Tipo</button>
-  <button class="btn btn-laranja btn-small mr-5" (click)="sortField='date'; sortAsc=!sortAsc">Data</button>
-</div>
-
-<div class="p-3">
-  <div class="row">
+  <section class="transactions-grid mt-2">
+    <div class="row">
     @for (item of filterTransactions(); track $index) {
       <div class="col-4 mb-3">
-        <mat-card class="transacoes-card" appearance="outlined">
-          <mat-card-header>
-            <mat-card-title class="text-azul-fechado text-md">
-              {{ item.description }}
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="text-xsm">
-            <p>
-              Valor:
-              <span [class]="item.amount | negativeValues">
-                {{ item.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
-              </span>
-            </p>
-            <p>
-              Tipo:
-              @if (item.type === transactionTypesEnum.INCOME) {
-                Entrada
-              } @else if (item.type === transactionTypesEnum.EXPENSE) {
-                Saída
-              } @else {
-                Transferência
-              }
-            </p>
-            <p>
-              Data: {{ item.date | date:'dd/MM/yyyy' }}
-            </p>
-          </mat-card-content>
-        </mat-card>
+        <mat-card class="transacoes-card">
+           <mat-card-header>
+              <mat-icon [ngClass]="{
+                  'icon-income': item.type === transactionTypesEnum.INCOME,
+                  'icon-expense': item.type === transactionTypesEnum.EXPENSE,
+                  'icon-transfer': item.type === transactionTypesEnum.TRANSFER
+                }">
+                @if (item.type === transactionTypesEnum.INCOME) { trending_up }
+                @else if (item.type === transactionTypesEnum.EXPENSE) { trending_down }
+                @else { swap_horiz }
+              </mat-icon>
+              <mat-card-title>{{ item.description }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="text-xsm">
+              <p>
+                Valor:
+                <span [class]="item.amount | negativeValues">
+                  {{ item.amount | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+                </span>
+              </p>
+              <p>
+                Tipo:
+                @if (item.type === transactionTypesEnum.INCOME) {
+                  Entrada
+                } @else if (item.type === transactionTypesEnum.EXPENSE) {
+                  Saída
+                } @else {
+                  Transferência
+                }
+              </p>
+              <p>
+                Data: {{ item.date | date:'dd/MM/yyyy' }}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="invoice-section">
+    @defer (on interaction(loadButton)) {
+      <app-credit-card-invoice></app-credit-card-invoice>
+    }
+    @placeholder {
+      <div #loadButton class="loading-placeholder text-laranja mouse-pointer" >
+        Clique para ver a fatura do cartão de crédito
       </div>
     }
-  </div>
-</div>
+    @loading (minimum 2s) {
+      <div class="loading-placeholder text-laranja mouse-pointer">
+        Carregando fatura do cartão de crédito...
+      </div>
+    }    
+  </section>
+
+   
+</main>

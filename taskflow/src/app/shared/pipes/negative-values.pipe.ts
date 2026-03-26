@@ -6,10 +6,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class NegativeValuesPipe implements PipeTransform {
   transform(value: number): string {
     if (value > 0) {
-      return 'text-success';
+      return 'text-verde';
     }
     if (value < 0) {
-      return 'text-danger';
+      return 'text-vermelho';
     }
 
     return '';

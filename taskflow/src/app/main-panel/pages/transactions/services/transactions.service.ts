@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 import { Transaction } from '../models/transaction.model';
-import { TransactionTypes } from '../constants/transaction-types.enum';
-import { map } from 'rxjs/operators';
+import { Account } from '../../dashboard/models/account.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +21,12 @@ export class TransactionsService {
   }
 
   // Criação de transação + sobrescrever saldo
-  createTransaction(transaction: Transaction): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/transactions`, transaction).pipe(
+  createTransaction(transaction: Omit<Transaction, 'id'>): Observable<Account> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer token-secreto-banco-123',
+      'Content-Type': 'application/json'
+    });
+    return this.http.post<Transaction>(`${this.apiUrl}/transactions`, transaction, { headers }).pipe(
       switchMap(() => {
         // busca conta atual
         return this.http.get<{ id: number; name: string; balance: number }>(
@@ -32,7 +35,7 @@ export class TransactionsService {
           switchMap((account) => {
             const newBalance = account.balance + transaction.amount;
             // sobrescreve objeto account inteiro
-            return this.http.put<void>(`${this.apiUrl}/account`, {
+            return this.http.put<Account>(`${this.apiUrl}/account`, {
               id: account.id,
               name: account.name,
               balance: newBalance,
@@ -68,9 +71,11 @@ export class TransactionsService {
   }
 
   deleteTransaction(id: string): Observable<void> {
+    // Enviar um motivo de cancelamento junto com a requisição de DELETE
+    const params = new HttpParams().set('motivo', 'cancelamento');
     return this.getTransactionById(id).pipe(
       switchMap((transaction) =>
-        this.http.delete<void>(`${this.apiUrl}/transactions/${id}`).pipe(
+        this.http.delete<void>(`${this.apiUrl}/transactions/${id}`, { params }).pipe(
           switchMap(() =>
             this.getAccount().pipe(
               switchMap((account) => {

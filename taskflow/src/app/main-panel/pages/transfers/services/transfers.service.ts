@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, throwError } from 'rxjs';
 import { Transfer } from '../models/transfer.model';
+import { catchError } from 'rxjs/operators';
+import { Account } from '../../dashboard/models/account.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,7 @@ export class TransfersService {
   }
 
   // Realizar transferência + sobrescrever saldo
-  createTransfer(transfer: Transfer): Observable<void> {
+  createTransfer(transfer: Transfer): Observable<Account> {
     return this.http.post<void>(`${this.apiUrl}/transfers`, transfer).pipe(
       switchMap(() => {
         // busca conta atual
@@ -31,12 +33,18 @@ export class TransfersService {
         ).pipe(
           switchMap((account) => {
             const newBalance = account.balance + transfer.amount;
-            // sobrescreve objeto account inteiro
-            return this.http.put<void>(`${this.apiUrl}/account`, {
-              id: account.id,
-              name: account.name,
+            const payload = {
               balance: newBalance,
-            });
+              item: { balance: newBalance },
+            };
+            return this.http
+              .patch<Account>(`${this.apiUrl}/account`, payload)
+              .pipe(
+                catchError((err) => {
+                  console.error(err);
+                  return throwError(() => new Error('Erro ao atualizar o saldo'));
+                })
+              );
           })
         );
       })

@@ -1,0 +1,7 @@
+.simulador-card {
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  padding: 1rem;
+  margin: 1.25rem .75rem;
+  border: 1px solid #d0e0e3
+}

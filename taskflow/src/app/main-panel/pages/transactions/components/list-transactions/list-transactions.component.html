@@ -1,11 +1,13 @@
-<div class="p-3">
-  <button class="btn btn-laranja mb-3" (click)="redirectToCreate()">
+<div class="m-3">
+  <h2>Vizualizar Extrato</h2>
+  <button class="btn btn-laranja my-3" (click)="redirectToCreate()">
     Adicionar Transação
   </button>
   <div>
     <mat-form-field appearance="outline">
-      <mat-label>Buscar</mat-label>
-      <input matInput [(ngModel)]="search" />
+      <mat-label>Buscar transações</mat-label>
+      <input matInput [(ngModel)]="search" aria-label="Buscar transações" />
+      <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
   </div>
   <div class="ordenacao mb-3">
@@ -29,7 +31,7 @@
         <tr>
           <td>{{ item.date | date: "dd/MM/yyyy" }}</td>
           <td>{{ item.description }}</td>
-          <td [class]="item.amount | negativeValues">
+          <td [ngClass]="item.amount | negativeValues">
             {{ item.amount | currency: "BRL" : "symbol" : "1.2-2" : "pt-BR" }}
           </td>
           <td>
@@ -43,16 +45,14 @@
           </td>
           <td>
             <button *ngIf="item.type != transactionTypesEnum.TRANSFER"
-              class="btn btn-sm btn-outline-primary me-2"
-              (click)="onEdit(item.id)"
-            >
-              Editar
+              class="btn btn-icon btn-branco mr-2"
+              (click)="onEdit(item.id)">
+              <mat-icon>edit</mat-icon>
             </button >
             <button *ngIf="item.type != transactionTypesEnum.TRANSFER"
-              class="btn btn-sm btn-outline-danger"
-              (click)="onDelete(item.id)"
-            >
-              Excluir
+              class="btn btn-icon btn-vermelho"
+              (click)="onDelete(item.id)">
+              <mat-icon>delete</mat-icon>
             </button>
           </td>
         </tr>

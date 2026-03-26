@@ -1,10 +1,31 @@
-<div class="p-3">
-  @switch (page$ | async) {
-    @case (pagesEnum.SEARCH) {
-      <app-search-loan></app-search-loan>
-    }
-    @case (pagesEnum.RESULT) {
-      <app-result-loan></app-result-loan>
-    }
-  }
+<div class="m-3 mt-5">
+  <h2>Simulação de Crédito</h2>
+  <p>Simule um empréstimo e veja as condições</p>
+
+  <mat-card class="loan-card my-5">
+      <mat-card-header>
+        <mat-card-title>
+          {{ loanLimit() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="text-verde">Limite Disponível</mat-card-content>
+    </mat-card>
+
+  <div class="flex flex-column loan-simular">
+  
+    <div>
+      @defer (on interaction(botaoSimular)) {
+        <app-search-loan></app-search-loan>
+      } 
+      @placeholder {
+        <button #botaoSimular class="btn btn-laranja btn-small">Desejo fazer uma simulação</button>
+      }
+      @loading (minimum 2s) {
+        <div class="loading-placeholder text-laranja mouse-pointer">
+          Carregando Simulador de Crédito...
+        </div>
+      } 
+    </div>
+  </div>
+  
 </div>

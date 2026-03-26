@@ -3,9 +3,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMaskDirective } from 'ngx-mask';
-import { RouterService } from '../../../../../core/services/router.service';
 import { SimuladorService, LoanSimulationRequest  } from '../../services/simulador.service';
-import { LoansPagesEnum } from '../../constants/loans-pages.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-loan',
@@ -21,8 +20,8 @@ import { LoansPagesEnum } from '../../constants/loans-pages.enum';
 })
 export class SearchLoanComponent implements OnInit {
 
-  private readonly routerService = inject(RouterService);
   private readonly simuladorService = inject(SimuladorService);
+  private readonly router = inject(Router)
 
   form!: FormGroup;
 
@@ -49,11 +48,10 @@ export class SearchLoanComponent implements OnInit {
   }
 
   onSubmit(): void {
-  if (this.form.valid) {
-    const payload: LoanSimulationRequest = this.form.getRawValue();
-    this.simuladorService.simulateLoan(payload);
-
-    this.routerService.setLoanPage(LoansPagesEnum.RESULT);
+    if (this.form.valid) {
+      const payload: LoanSimulationRequest = this.form.getRawValue();
+      this.simuladorService.simulateLoan(payload);
+      this.router.navigate(['/emprestimo/simulacao']);
+    }
   }
-}
 }

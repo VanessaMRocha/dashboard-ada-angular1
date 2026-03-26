@@ -1,17 +1,14 @@
 <header class="header">
-  <div class="d-flex align-items-center">
+  <div class="logo-area">
     <img src="logo_caixa.png" alt="Logo da empresa" class="logo-img" />
   </div>
 
-  <div *ngIf="username" class="d-flex align-items-center">
-    <span class="me-3">Bem vindo, {{ username }}!</span>
-    <button mat-icon-button class="text-white">
-      <mat-icon
-        aria-hidden="false"
-        aria-label="Ícone do botão de sair"
-        fontIcon="logout"
-        (click) = "efetuarLogout()"
-      ></mat-icon>
-    </button>
-  </div>
+  @if (isAuthenticated()) {
+    <div class="user-area">
+      <span class="welcome-text">Bem vindo, {{ username }}!</span>
+      <button mat-icon-button class="logout-btn" (click)="logout()">
+        <mat-icon aria-hidden="true" fontIcon="logout"></mat-icon>
+      </button>
+    </div>
+  }
 </header>

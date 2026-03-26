@@ -1,63 +1,52 @@
-import { Component, inject } from '@angular/core';
-import { Pages } from '../constants/pages.enum';
-import { RouterService } from '../core/services/router.service';
+import { Component } from '@angular/core'
 import { MenuItem } from '../models/menu-item.model';
-import { StatusLoginService } from '../main-panel/pages/login/services/status-login.service';
-import { CommonModule } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule],
+  imports: [MatIcon, RouterModule, TranslatePipe],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
 
-  exibeLogin: boolean = true;
-
-  constructor(
-    private statusLogin: StatusLoginService,
-    private routerService: RouterService
-  ) {}
-
-  ngOnInit() {
-    this.statusLogin.exibeLogin$.subscribe(valor => {
-      this.exibeLogin = valor;
-    });
-  }
+  constructor() {}
 
   menuItems: MenuItem[] = [
     {
-      label: 'Dashboard',
-      icon: '',
-      page: Pages.DASHBOARD,
+      label: 'SIDEBAR.DASHBOARD',
+      icon: 'dashboard',
+      link: '/dashboard',
       selected: true,
     },
     {
       label: 'Extrato',
-      icon: '',
-      page: Pages.TRANSACTIONS,
+      icon: 'receipt_long',
+      link: '/transacoes',
       selected: false,
     },
     {
-      label: 'Transferência',
-      icon: '',
-      page: Pages.TRANSFERS,
+      label: 'SIDEBAR.TRANSFER',
+      icon: 'currency_exchange',
+      link: '/transferencia',
       selected: false,
     },
     {
-      label: 'Simulador de Crédito',
-      icon: '',
-      page: Pages.LOANS,
+      label: 'SIDEBAR.LOAN',
+      icon: 'calculate',
+      link: '/emprestimo',
+      selected: false,
+    },
+    {
+      label: 'SIDEBAR.PROFILE',
+      icon: 'person',
+      link: '/perfil',
       selected: false,
     },
     
   ];
-
-  redirectToPage(page: Pages): void {
-    this.routerService.setCurrentPage(page);
-  }
-
 
 }
 

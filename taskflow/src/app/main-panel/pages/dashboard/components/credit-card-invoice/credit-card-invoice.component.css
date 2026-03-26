@@ -1,0 +1,77 @@
+.invoice-card {
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+  padding: 1rem;
+  margin-top: 1.5rem;
+  border: 1px solid #d0e0e3
+}
+
+.invoice-card mat-card-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: 1rem;
+  color: #004c8c;
+}
+
+.invoice-card mat-card-title {
+  font-size: 1.4rem;
+  font-weight: bold; 
+}
+
+.invoice-due {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #c62828; 
+  text-align: left;
+}
+
+.invoice-subtitle {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #004c8c;
+  text-align: left;
+}
+
+.purchase-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.purchase-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .5rem 0;
+  border-bottom: 1px solid #d0e0e3;
+}
+
+.purchase-description {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-weight: 500;
+}
+
+.purchase-icon {
+  color: #004c8c;
+}
+
+.purchase-amount {
+  font-weight: bold;
+}
+
+.empty-purchase {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  padding: 1rem 0;
+}
+
+.invoice-card mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}

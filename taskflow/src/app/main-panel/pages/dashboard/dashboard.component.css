@@ -1,21 +1,160 @@
-.dashboard-card {
-    --mdc-elevated-card-container-elevation: 0px 4px 10px #004c8c;
-}
-
-.transacoes-card{
-    --mdc-outlined-card-outline-color: #004c8c;
-}
-
-.dashboard-card mat-card-header,
-.dashboard-card mat-card-content {
+.dashboard-header {
   display: flex;
-  justify-content: center; /* centraliza horizontalmente */
-  text-align: center;      /* garante alinhamento do texto */
+  /* justify-content: space-between; */
+  align-items: center;
+  margin: 1.25rem .75rem;
+}
+
+button[mat-icon-button] {
+  color: #005ca9; 
+  transition: transform 0.2s ease;
+  border: none;
+  margin-left: 1rem;
+  background: none;
+  padding-top: 0.15rem
+}
+
+button[mat-icon-button]:hover {
+  transform: scale(1.1);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.dashboard-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-align: center;
+  padding: 1rem;
+}
+
+.dashboard-card mat-card-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
 }
 
 .dashboard-card mat-card-title {
-  text-align: center;
-  font-size: 2rem;  
-  width: 100%; /* ocupa toda a largura para alinhar certinho */
+  font-size: 1.6rem;
+  font-weight: bold;
 }
 
+/* Card de Saldo */
+.saldo-card {
+  background: linear-gradient(135deg, #004c8c, #006bb3);
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
+.saldo-card mat-card-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* Card de Receitas */
+.receita-card {
+  background: #e8f5e9; 
+  border-left: 6px solid #2e7d32;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.receita-card mat-card-title {
+  color: #2e7d32;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.text-verde{ color: #2e7d32}
+
+/* Card de Despesas */
+.despesa-card {
+  background: #ffebee; 
+  border-left: 6px solid #c62828; 
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.despesa-card mat-card-title {
+  color: #c62828;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.text-vermelho { color: #c62828 }
+
+
+/* Ícones dentro dos cards */
+.dashboard-card mat-icon {
+  margin-right: .5rem;
+}
+
+/* Tipografia geral */
+mat-card-content {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Responsividade */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.align-end { align-self: end;}
+
+.search-bar {
+  margin: 1rem;
+}
+
+.ordenacao {
+  margin: 1rem;
+}
+
+.ordenacao-buttons {
+  display: flex;
+  gap: .25rem;
+  flex-wrap: wrap;
+}
+
+.transactions-grid {
+  margin: 1rem;
+}
+
+.transacoes-card {
+  border: 1px solid #d0e0e3;
+  border-radius: 8px;
+  border-left: 3px solid #004c8c;
+}
+
+.transacoes-card mat-card-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: 1.2rem;
+  color: #004c8c;
+}
+
+.icon-income { color: #2e7d32; }
+
+.icon-expense { color: #c62828; }
+
+.icon-transfer { color: #c62828; }
+
+.transacoes-card mat-icon {
+  font-size: 1.6rem;
+  margin-right: .5rem;
+}
+
+.invoice-section {
+  text-align: center;
+  margin: 1rem;
+}

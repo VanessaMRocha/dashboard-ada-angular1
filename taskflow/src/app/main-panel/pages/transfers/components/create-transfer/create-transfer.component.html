@@ -1,87 +1,91 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<div class="m-3 mt-5">
+  <h2>Realizar transferência</h2>
 
-  <mat-form-field appearance="outline" class="w-100 mb-3">
-    <mat-label>Data</mat-label>
-    <input matInput formControlName="date" [matDatepicker]="picker" />
-    <mat-hint>A data deve ser entre 01/01/2026 e a data de hoje</mat-hint>
-    @if (this.form.get("date")?.errors?.["dateOutOfRange"]) {
-      <mat-error
-        >Data deve estar entre
-        {{
-          this.form.get("date")?.errors?.["dateOutOfRange"]?.min
-            | date: "dd/MM/yyyy"
-        }}
-        e
-        {{
-          this.form.get("date")?.errors?.["dateOutOfRange"]?.max
-            | date: "dd/MM/yyyy"
-        }}</mat-error
-      >
-    }
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" class="w-100 mb-3">
-    <mat-label>Conta</mat-label>
-    <input
-      matInput
-      placeholder="000000-00"
-      formControlName="destination"
-      mask="000000-00"
-      [allowNegativeNumbers]="false"
-      [dropSpecialCharacters]="false"
-    />
-    @if (form.get("destination")?.errors?.["pattern"]) {
-      <mat-error>O número da conta deve conter 8 caracteres</mat-error>
-    }
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" class="w-100 mb-3">
-    <mat-label>Valor</mat-label>
-    <input
-      matInput
-      placeholder="Informe o valor"
-      formControlName="amount"
-      mask="separator.2"
-      thousandSeparator="."
-      decimalMarker=","
-      prefix="R$ "
-      [allowNegativeNumbers]="true"
-    />
-  </mat-form-field>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mt-3">
 
     <mat-form-field appearance="outline" class="w-100 mb-3">
-    <mat-label>Descrição</mat-label>
-    <input
-      matInput
-      placeholder="Descreva a transação"
-      formControlName="description"
-    />
-    @if (form.get("description")?.errors?.["required"]) {
-      <mat-error>A descrição precisa ser informada</mat-error>
-    }
-    @if (form.get("description")?.errors?.["minlength"]) {
-      <mat-error>A descrição precisa ter mais que 4 caracteres</mat-error>
-    }
-  </mat-form-field>
+      <mat-label>Data</mat-label>
+      <input matInput formControlName="date" [matDatepicker]="picker" />
+      <mat-hint>A data deve ser entre 01/01/2026 e a data de hoje</mat-hint>
+      @if (this.form.get("date")?.errors?.["dateOutOfRange"]) {
+        <mat-error
+          >Data deve estar entre
+          {{
+            this.form.get("date")?.errors?.["dateOutOfRange"]?.min
+              | date: "dd/MM/yyyy"
+          }}
+          e
+          {{
+            this.form.get("date")?.errors?.["dateOutOfRange"]?.max
+              | date: "dd/MM/yyyy"
+          }}</mat-error
+        >
+      }
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-  <div class="mt-3">
-    <button
-      type="submit"
-      class="btn btn-laranja me-2"
-      [disabled]="form.invalid"
-    >
-      Efetivar transferência
-    </button>
-    <button
-      type="button"
-      class="btn btn-outline-primary"
-      (click)="backToList()"
-    >
-      Voltar
-    </button>
-  </div>
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Conta</mat-label>
+      <input
+        matInput
+        placeholder="000000-00"
+        formControlName="destination"
+        mask="000000-00"
+        [allowNegativeNumbers]="false"
+        [dropSpecialCharacters]="false"
+      />
+      @if (form.get("destination")?.errors?.["pattern"]) {
+        <mat-error>O número da conta deve conter 8 caracteres</mat-error>
+      }
+    </mat-form-field>
 
-</form>
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Valor</mat-label>
+      <input
+        matInput
+        placeholder="Informe o valor"
+        formControlName="amount"
+        mask="separator.2"
+        thousandSeparator="."
+        decimalMarker=","
+        prefix="R$ "
+        [allowNegativeNumbers]="true"
+      />
+    </mat-form-field>
 
+      <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Descrição</mat-label>
+      <input
+        matInput
+        placeholder="Descreva a transação"
+        formControlName="description"
+      />
+      @if (form.get("description")?.errors?.["required"]) {
+        <mat-error>A descrição precisa ser informada</mat-error>
+      }
+      @if (form.get("description")?.errors?.["minlength"]) {
+        <mat-error>A descrição precisa ter mais que 4 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="mt-3">
+      <button
+        type="submit"
+        class="btn btn-laranja mr-2"
+        [disabled]="form.invalid"
+      >
+        Efetivar transferência
+      </button>
+      <button
+        type="button"
+        class="btn btn-azul"
+        (click)="backToList()"
+      >
+        Voltar
+      </button>
+    </div>
+
+  </form>
+
+</div>

@@ -3,12 +3,11 @@ import { first } from 'rxjs';
 import { Transfer } from '../../models/transfer.model';
 import { TransfersService } from '../../services/transfers.service';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransferPagesEnum } from '../../constants/transfer-pages.enum';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { NegativeValuesPipe } from '../../../../../shared/pipes/negative-values.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-transfers',
@@ -26,7 +25,7 @@ import { NegativeValuesPipe } from '../../../../../shared/pipes/negative-values.
 export class ListTransfersComponent implements OnInit {
 
   private readonly transfersService = inject(TransfersService);
-  private readonly routerService = inject(RouterService);
+  private readonly router = inject(Router);
 
   @Output() editEmitter = new EventEmitter<string>();
 
@@ -54,11 +53,7 @@ export class ListTransfersComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.routerService.setTransferPage(TransferPagesEnum.CREATE);
-  }
-
-  onEdit(id: string): void {
-    this.editEmitter.emit(id);
+    this.router.navigate(['/transferencia/criar']);
   }
 
   filterTransfers(): Transfer[] {

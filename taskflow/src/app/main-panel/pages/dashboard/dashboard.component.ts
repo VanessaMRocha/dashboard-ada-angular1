@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, effect } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Account } from './models/account.model';
 import { DashboardService } from './services/dashboard.service';
@@ -13,6 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { NegativeValuesPipe } from '../../../shared/pipes/negative-values.pipe';
 import { TransfersService } from '../transfers/services/transfers.service';
+import { CreditCardInvoiceComponent } from './components/credit-card-invoice/credit-card-invoice.component';
+import { MatIcon } from '@angular/material/icon';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +28,8 @@ import { TransfersService } from '../transfers/services/transfers.service';
     CurrencyPipe,
     CommonModule,
     NegativeValuesPipe,
+    CreditCardInvoiceComponent,
+    MatIcon
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -34,7 +39,8 @@ export class DashboardComponent implements OnInit {
   private readonly transactionsService = inject(TransactionsService);
   private readonly transferService = inject(TransfersService);
 
-  account?: Account;
+  accountData = toSignal<Account | undefined>(this.dashboardService.getAccount(), {initialValue: undefined});
+
   transactions: Transaction[] = [];
 
   search: string = '';
@@ -48,6 +54,8 @@ export class DashboardComponent implements OnInit {
   totalIncome: number = 0;
   totalExpense: number = 0;
 
+  isBalanceVisible = signal(true);
+
   constructor() {
     const now = new Date();
     const monthNames = [
@@ -55,26 +63,18 @@ export class DashboardComponent implements OnInit {
       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
     ];
     const month = monthNames[now.getMonth()];
-    const year = now.getFullYear().toString().slice(-2); // pega só os 2 últimos dígitos
+    const year = now.getFullYear().toString().slice(-2); // 2 últimos dígitos
     this.currentMonthLabel = `${month}/${year}`;
+
+    effect(() => {
+      console.log('A visibilidade do extrato mudou para:', this.isBalanceVisible());
+    });
   }
 
   ngOnInit(): void {
-    this.getAccount();
     this.getTransactions();
   }
 
-  getAccount(): void {
-    this.dashboardService
-      .getAccount()
-      .pipe(first())
-      .subscribe({
-        next: (res: Account) => {
-          this.account = res;
-        },
-        error: (err) => console.log(err),
-      });
-  }
 
   getTransactions(): void {
     forkJoin({
@@ -161,4 +161,9 @@ export class DashboardComponent implements OnInit {
         return this.sortAsc ? result : -result;
       });
   }
+
+  toogleBalance(): void {
+    this.isBalanceVisible.update((visible) => !visible);
+  }
+  
 } 

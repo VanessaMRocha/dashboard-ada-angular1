@@ -1,19 +1,18 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { first } from 'rxjs';
 import { Transaction } from '../../models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
-import { CurrencyPipe, DatePipe, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgIf, NgClass } from '@angular/common';
 import { TransactionTypes } from '../../constants/transaction-types.enum';
 import { NegativeValuesPipe } from '../../../../../shared/pipes/negative-values.pipe';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransactionPagesEnum } from '../../constants/transaction-pages.enum';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Transfer } from '../../../transfers/models/transfer.model';
 import { TransfersService } from '../../../transfers/services/transfers.service';
+import { Router } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-list-transactions',
@@ -24,19 +23,21 @@ import { TransfersService } from '../../../transfers/services/transfers.service'
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    NgIf
+    NgIf,
+    MatIcon,
+    NgClass
 ],
   templateUrl: './list-transactions.component.html',
   styleUrl: './list-transactions.component.css',
 })
 export class ListTransactionsComponent implements OnInit {
   private readonly transactionsService = inject(TransactionsService);
-  private readonly routerService = inject(RouterService);
+  private readonly router = inject(Router);
   private readonly transferService = inject(TransfersService)
 
   @Output() editEmitter = new EventEmitter<string>();
 
-  transactions: Transaction[] = [];
+  transactions = signal<Transaction[]>([]);
   transactionTypesEnum = TransactionTypes;
   search: string = '';
   sortField: 'amount' | 'type' | 'date' = 'date';
@@ -45,8 +46,6 @@ export class ListTransactionsComponent implements OnInit {
   ngOnInit(): void {
     this.getTransactions();
   }
-
-
 
   getTransactions(): void {
     forkJoin({
@@ -67,23 +66,28 @@ export class ListTransactionsComponent implements OnInit {
       })
     )
     .pipe(first())
-    .subscribe({
-      next: (res) => {
-        this.transactions = res;
-      },
-      error: (err) => console.log(err),
-    });
+    .subscribe((result) => {
+        if (result) {
+          this.transactions.set(result);
+        }
+      });
   }
 
   redirectToCreate(): void {
-    this.routerService.setTransactionPage(TransactionPagesEnum.CREATE);
+    this.router.navigate(['/transacoes/criar']);
   }
 
   onEdit(id: string): void {
-    this.editEmitter.emit(id);
+    this.router.navigate([`/transacoes/editar/${id}`]);
   }
 
+  isLoading = signal(false);
+  errorMessage = signal<string | null>(null);
+
   onDelete(id: string): void {
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
+
     this.transactionsService
       .deleteTransaction(id)
       .pipe(first())
@@ -92,13 +96,17 @@ export class ListTransactionsComponent implements OnInit {
           this.getTransactions();
         },
         error: (err) => {
-          console.log(err);
+          console.error('Erro ao excluir transação:', err);
+          this.errorMessage.set('Ocorreu um erro ao excluir a transação.');
         },
+        complete: () => {
+        this.isLoading.set(false);
+      }
       });
   }
 
   filterTransactions(): Transaction[] {
-    return this.transactions
+    return this.transactions()
       .filter((item) =>
         item.description.toLowerCase().includes(this.search.toLowerCase())
       )

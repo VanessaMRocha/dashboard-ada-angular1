@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -15,13 +15,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMaskDirective } from 'ngx-mask';
 import { first } from 'rxjs';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransferPagesEnum } from '../../constants/transfer-pages.enum';
 import { Transfer } from '../../models/transfer.model';
 import { TransfersService } from '../../services/transfers.service';
 import { DatePipe } from '@angular/common';
 import { ConfirmDialogComponent } from '../../../transactions/components/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-transfer',
@@ -41,7 +40,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class CreateTransferComponent implements OnInit{
 
   private readonly transfersService = inject(TransfersService);
-  private readonly routerService = inject(RouterService);
+  private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
 
   @Input() id?: string;
@@ -96,7 +95,12 @@ export class CreateTransferComponent implements OnInit{
       });
   }
 
+  isTransfering = signal(false);
+  error: string | null = null;
+  success = false;
+
   onSubmit(): void {
+
     const payload: Transfer = this.form.getRawValue();
     payload.amount = -1 * payload.amount;
     this.transfersService
@@ -127,22 +131,29 @@ export class CreateTransferComponent implements OnInit{
   }
 
   saveTransaction(payload: Transfer): void {
+    this.error = null;
+    this.success = false;
+    this.isTransfering.set(true);
+
     this.transfersService
       .createTransfer(payload)
       .pipe(first())
       .subscribe({
         next: () => {
-          console.log('Sucesso!');
+          this.success = true;
           this.backToList();
         },
         error: (err) => {
-          console.log(err);
+          this.error = err?.message || 'Erro ao realizar transferência';
         },
+        complete: () => {
+          this.isTransfering.set(false);
+        }
       });
   }
 
   backToList(): void {
-    this.routerService.setTransferPage(TransferPagesEnum.LIST);
+    this.router.navigate(['/transferencia']);
   }
 
    dateRangeValidator(minDate: Date, maxDate: Date): ValidatorFn {

@@ -1,0 +1,27 @@
+<mat-card class="invoice-card" id="invoice-card">
+  <mat-card-header>
+    <mat-card-title>Fatura do Cartão de Crédito</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="invoice-due">Vencimento: 20/03/2026</p>
+
+    <h4 class="invoice-subtitle">Últimas compras</h4>
+    <ul class="purchase-list">
+      @for (item of [1, 2, 3]; track item) {
+        <li>
+          <div class="purchase-item">
+            <div class="purchase-description">
+              <mat-icon class="purchase-icon">shopping_cart</mat-icon>
+              Compra {{ item }}
+            </div>
+            <div class="purchase-amount">R$ 50,00</div>
+          </div>
+        </li>
+      } @empty {
+        <li class="empty-purchase">Nenhuma compra recente</li>
+      }
+    </ul>
+  </mat-card-content>
+
+</mat-card>

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -15,14 +15,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMaskDirective } from 'ngx-mask';
 import { first } from 'rxjs';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransactionPagesEnum } from '../../constants/transaction-pages.enum';
 import { TransactionTypes } from '../../constants/transaction-types.enum';
 import { Transaction } from '../../models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
 import { DatePipe } from '@angular/common';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-transaction',
@@ -33,7 +32,7 @@ import { MatDialog } from '@angular/material/dialog';
     MatDatepickerModule,
     MatSelectModule,
     NgxMaskDirective,
-    DatePipe,
+    DatePipe
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './create-transaction.component.html',
@@ -41,7 +40,8 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class CreateTransactionComponent implements OnInit {
   private readonly transactionsService = inject(TransactionsService);
-  private readonly routerService = inject(RouterService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);
 
   @Input() id?: string;
@@ -54,6 +54,7 @@ export class CreateTransactionComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildForm();
+    this.id = this.route.snapshot.paramMap.get('id') || undefined;
 
     if (this.id) {
       this.getTransactionById();
@@ -94,45 +95,62 @@ export class CreateTransactionComponent implements OnInit {
       });
   }
 
-  onSubmit(): void {
-    const payload: Transaction = this.form.getRawValue();
-    payload.amount =
-      (payload.type === TransactionTypes.EXPENSE ? -1 : 1) * payload.amount;
+  isLoading = signal(false);
+  errorMessage = signal<string | null>(null);
 
-    this.transactionsService
-      .getAccount() 
-      .pipe(first())
-      .subscribe({
-        next: (account) => {
-          const newBalance = account.balance + payload.amount;
+  onSubmit() {
+    if (this.form.valid) {
+      this.isLoading.set(true);
+      this.errorMessage.set(null); // Limpa erros anteriores
 
-          if (newBalance < 0) {
-            // abre o dialog
-            const dialogRef = this.dialog.open(ConfirmDialogComponent);
+      const payload: Transaction = this.form.getRawValue();
+      payload.amount = (payload.type === TransactionTypes.EXPENSE ? -1 : 1) * payload.amount;
 
-            dialogRef.afterClosed().subscribe((usarChequeEspecial: boolean | undefined) => {
-              if (!usarChequeEspecial) {
-                return; // usuário disse Não → não salva
-              }
-              // usuário disse Sim → continua e salva
+      this.transactionsService
+        .getAccount() 
+        .pipe(first())
+        .subscribe({
+          next: (account) => {
+            const newBalance = account.balance + payload.amount;
+
+            if (newBalance < 0) {
+              // abre o dialog
+              const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+              dialogRef.afterClosed().subscribe((usarChequeEspecial: boolean | undefined) => {
+                if (!usarChequeEspecial) {
+                  return; // usuário disse Não → não salva
+                }
+                // usuário disse Sim → continua e salva
+                if (this.id) {
+                  this.updateTransaction(payload);
+                  return;
+                }
+
+                this.saveTransaction(payload);
+              });
+            }
+            else{
               if (this.id) {
                 this.updateTransaction(payload);
                 return;
               }
 
               this.saveTransaction(payload);
-            });
-          }
-          else{
-            if (this.id) {
-              this.updateTransaction(payload);
-              return;
             }
+          },
+          error: (err) => {
+          console.error('Erro ao criar transação:', err);
+          this.errorMessage.set('Ocorreu um erro ao criar a transação.');
+        },
+        complete: () => {
+          this.isLoading.set(false);  // Conclui e desabilita o loading
+        },  
 
-            this.saveTransaction(payload);
-          }
-        }  
-    });
+      });
+
+    }
+    
   }
 
   saveTransaction(payload: Transaction): void {
@@ -166,7 +184,7 @@ export class CreateTransactionComponent implements OnInit {
   }
 
   backToList(): void {
-    this.routerService.setTransactionPage(TransactionPagesEnum.LIST);
+    this.router.navigate(['/transacoes']);
   }
 
   dateRangeValidator(minDate: Date, maxDate: Date): ValidatorFn {

@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { StatusLoginService } from '../main-panel/pages/login/services/status-login.service';
-import { Pages } from '../constants/pages.enum';
-import { RouterService } from '../core/services/router.service';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,31 +12,24 @@ import { RouterService } from '../core/services/router.service';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  
+
+  private readonly statusLogin = inject(StatusLoginService);
+  private readonly authService = inject(AuthService);
+
   username: string = '';
 
-  constructor(
-    private statusLogin: StatusLoginService,
-    private routerService: RouterService
-  ) {}
+  constructor(  ) {}
 
   ngOnInit() {
     this.statusLogin.username$.subscribe(nome => {
-      this.username = nome;
+      this.username = nome.split('@')[0];
     });
   }
 
-  redirectToPage(page: Pages): void {
-      this.routerService.setCurrentPage(page);
+  logout() {
+    this.authService.logout();
   }
 
-  efetuarLogout(): void {
-    // Limpa o estado de login
-    this.statusLogin.logout();
-
-    // Redireciona para a página de login
-    this.redirectToPage(Pages.LOGIN);
-  }
-
+  isAuthenticated = this.authService.isAuthenticated;
 
 }
