@@ -1,11 +1,44 @@
 <header class="header">
-  <div class="logo-area">
-    <img src="logo_caixa.png" alt="Logo da empresa" class="logo-img" />
+  <div class="flex">
+    <div class="logo-area">
+      <img src="logo_caixa.png" alt="Logo da empresa" class="logo-img" />
+    </div>
+    <div class="user-actions">
+      <button 
+          mat-icon-button
+          class="icon-btn"
+          (click)="mudarIdioma('pt-br')"
+          title="Mudar idioma para Português Brasileiro"
+          aria-label="Mudar idioma para Português Brasileiro"
+        >
+        🇧🇷
+        </button>
+        <button 
+          mat-icon-button
+          class="icon-btn"
+          (click)="mudarIdioma('pt-pt')"
+          title="Mudar idioma para Português Portugal"
+          aria-label="Mudar idioma para Português Portugal"
+        >
+        🇵🇹
+        </button>
+        <button 
+          mat-icon-button
+          class="icon-btn"
+          (click)="mudarIdioma('en-us')"
+          title="Mudar idioma para Inglês Americano"
+          aria-label="Mudar idioma para Inglês Americano"
+        >
+        🇺🇸
+        </button>
+    </div>
+
   </div>
+ 
 
   @if (isAuthenticated()) {
     <div class="user-area">
-      <span class="welcome-text">Bem vindo, {{ username }}!</span>
+      <span class="welcome-text">{{ 'HEADER.BEMVINDO' | translate }}, {{ username }}!</span>
       <button mat-icon-button class="logout-btn" (click)="logout()">
         <mat-icon aria-hidden="true" fontIcon="logout"></mat-icon>
       </button>

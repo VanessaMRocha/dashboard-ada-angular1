@@ -1,1 +1,12 @@
-<p>security-data works!</p>
+<div class="flex flex-column flex-align-start">
+    <button 
+        mat-icon-button 
+        (click)="toogleSenha()" 
+        [attr.aria-label]="isSenhaVisible() ? 'Esconder' : 'Exibir'">
+        <mat-icon>
+        {{ isSenhaVisible() ? 'visibility' : 'visibility_off' }}
+        </mat-icon>
+    </button>
+    <span><b>Senha:</b></span>
+    <span>{{ isSenhaVisible() ? senha : '******' }}</span>
+</div>

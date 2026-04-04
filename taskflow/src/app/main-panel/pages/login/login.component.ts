@@ -19,7 +19,6 @@ export class LoginComponent {
   exibeLogin: boolean = true;
 
   private readonly statusLogin = inject(StatusLoginService);
-  private readonly router = inject(Router);
   private authService = inject(AuthService);
 
   onSubmit() {
@@ -28,6 +27,7 @@ export class LoginComponent {
     }
     else{
       this.statusLogin.setUsername(this.email);
+      this.statusLogin.setPassword(this.password);
     }
   }
 }

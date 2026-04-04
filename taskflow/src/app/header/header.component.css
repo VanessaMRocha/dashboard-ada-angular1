@@ -19,6 +19,11 @@
   width: auto;
 }
 
+.user-actions{
+  margin-left: .5rem;
+  gap: 6px;
+}
+
 .user-area {
   display: flex;
   align-items: center;
@@ -29,6 +34,7 @@
 .welcome-text {
   font-weight: 500;
   font-size: 14px;
+  padding-top: .5rem;
 }
 
 .logout-btn {
@@ -40,4 +46,14 @@
   background-color: rgba(255,255,255,0.15);
   transform: scale(1.1);
   border-radius: 50%;
+}
+
+.icon-btn {
+    color: var(--text-soft);
+    font-size: medium;
+}
+
+.icon-btn:hover {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.1);
 }

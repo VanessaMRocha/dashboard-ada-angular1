@@ -2,10 +2,7 @@
   "account": {
     "id": 1,
     "name": "Cliente Demo",
-    "balance": 3052.5,
-    "item": {
-      "balance": 3052.5
-    }
+    "balance": 1652.5
   },
   "transactions": [
     {
@@ -76,6 +73,13 @@
       "date": "2026-03-02",
       "description": "Envio de Pix",
       "amount": -130,
+      "type": "expense"
+    },
+    {
+      "id": "45f2",
+      "date": "2026-04-04",
+      "description": "Aluguel",
+      "amount": -1400,
       "type": "expense"
     }
   ],

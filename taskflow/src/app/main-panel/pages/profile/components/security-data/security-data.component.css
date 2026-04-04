@@ -1,0 +1,11 @@
+button[mat-icon-button] {
+  color: #005ca9; 
+  transition: transform 0.2s ease;
+  border: none;
+  background: none;
+  padding-top: 0.15rem
+}
+
+button[mat-icon-button]:hover {
+  transform: scale(1.1);
+}

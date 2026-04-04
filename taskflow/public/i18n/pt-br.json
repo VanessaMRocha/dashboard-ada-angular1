@@ -1,9 +1,25 @@
 {
     "SIDEBAR": {
-        "DASHBOARD": "Painel",
+        "DASHBOARD": "Painel Inicial",
         "TRANSFER": "Transferência",
+        "STATEMENT": "Extrato",
         "LOAN": "Empréstimos",
         "TRANSACTIONS": "Transações",
         "PROFILE": "Perfil"
+    },
+    "DASHBOARD": {
+        "SALDO_DISPONIVEL": "Saldo Disponível",
+        "VER_FATURAS": "Ver faturas do cartão de crédito",
+        "CARREGAR_FATURAS": "Carregando faturas do cartão de crédito...",
+        "ULTIMAS_TRANSACOES": "Últimas Transações",
+        "RECEITAS": "Receitas (mês)",
+        "DESPESAS": "Despesas (mês)",
+        "ORDENAR": "Ordenar por",
+        "VALOR": "Valor",
+        "TIPO": "Tipo",
+        "DATA": "Data"
+    },
+    "HEADER": {
+        "BEMVINDO": "Bem-vindo"
     }
 }

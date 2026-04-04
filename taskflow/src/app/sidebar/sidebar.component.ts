@@ -22,7 +22,7 @@ export class SidebarComponent {
       selected: true,
     },
     {
-      label: 'Extrato',
+      label: 'SIDEBAR.STATEMENT',
       icon: 'receipt_long',
       link: '/transacoes',
       selected: false,

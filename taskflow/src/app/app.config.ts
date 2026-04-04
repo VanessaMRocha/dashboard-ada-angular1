@@ -2,7 +2,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
 import { routes } from './app.routes';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideEnvironmentNgxMask(),
     { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
-    provideRouter(routes),
+    provideRouter(routes, withPreloading(PreloadAllModules)),
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     importProvidersFrom(
       TranslateModule.forRoot()

@@ -11,11 +11,18 @@ export class StatusLoginService {
   private usernameSubject = new BehaviorSubject<string>('');
   username$ = this.usernameSubject.asObservable();
 
+  private passwordSubject = new BehaviorSubject<string>('');
+  senha$ = this.passwordSubject.asObservable();
+
   private exibeLoginSubject = new BehaviorSubject<boolean>(true);
   exibeLogin$ = this.exibeLoginSubject.asObservable();
 
   setUsername(nome: string) {
     this.usernameSubject.next(nome);
+  }
+
+  setPassword(senha: string) {
+    this.passwordSubject.next(senha);
   }
 
   setExibeLogin(valor: boolean) {

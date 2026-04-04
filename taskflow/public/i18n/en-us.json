@@ -1,0 +1,25 @@
+{
+  "SIDEBAR": {
+    "DASHBOARD": "Dashboard",
+    "TRANSFER": "Transfer",
+    "STATEMENT": "Statement",
+    "LOAN": "Loans",
+    "TRANSACTIONS": "Transactions",
+    "PROFILE": "Profile"
+  },
+  "DASHBOARD": {
+    "SALDO_DISPONIVEL": "Available Balance",
+    "VER_FATURAS": "View credit card bills",
+    "CARREGAR_FATURAS": "Loading credit card bills...",
+    "ULTIMAS_TRANSACOES": "Latest Transactions",
+    "RECEITAS": "Income (month)",
+    "DESPESAS": "Expenses (month)",
+    "ORDENAR": "Sort by",
+    "VALOR": "Amount",
+    "TIPO": "Type",
+    "DATA": "Date"
+  },
+  "HEADER": {
+    "BEMVINDO": "Welcome"
+  }
+}

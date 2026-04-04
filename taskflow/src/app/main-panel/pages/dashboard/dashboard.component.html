@@ -1,5 +1,5 @@
 <header class="dashboard-header">
-  <h2>Dashboard Financeiro</h2>
+  <h2>{{ 'SIDEBAR.DASHBOARD' | translate }}</h2>
   <button 
     mat-icon-button 
     (click)="toogleBalance()" 
@@ -19,7 +19,7 @@
           {{ isBalanceVisible() ? (accountData()?.balance ?? 0 | currency:'BRL':'symbol':'1.2-2':'pt-BR') : 'R$ *****' }}
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content>Saldo atual</mat-card-content>
+      <mat-card-content>{{ 'DASHBOARD.SALDO_DISPONIVEL' | translate }}</mat-card-content>
     </mat-card>
 
     <mat-card class="dashboard-card receita-card">
@@ -29,7 +29,7 @@
           {{ isBalanceVisible() ? ( totalIncome | currency:'BRL':'symbol':'1.2-2':'pt-BR' ) : 'R$ *****' }}
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content>Receitas (mês)</mat-card-content>
+      <mat-card-content>{{ 'DASHBOARD.RECEITAS' | translate}}</mat-card-content>
     </mat-card>
 
     <mat-card class="dashboard-card despesa-card">
@@ -39,12 +39,12 @@
           {{ isBalanceVisible() ? ('-' + (totalExpense | currency:'BRL':'symbol':'1.2-2':'pt-BR')) : 'R$ *****' }}
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content>Despesas (mês)</mat-card-content>
+      <mat-card-content>{{ 'DASHBOARD.DESPESAS' | translate}}</mat-card-content>
     </mat-card>
   </section>
 
   <section class="search-bar mt-5">
-    <h2 class="mb-3">Últimas transações - {{ currentMonthLabel }}</h2>
+    <h2 class="mb-3">{{ 'DASHBOARD.ULTIMAS_TRANSACOES' | translate}} - {{ currentMonthLabel }}</h2>
     <mat-form-field appearance="outline">
       <mat-label>Buscar transações</mat-label>
       <input matInput [(ngModel)]="search" aria-label="Buscar transações" />
@@ -53,11 +53,11 @@
   </section>
 
   <section class="ordenacao">
-    <span class="text-xsm">Ordenar por:</span>
+    <span class="text-xsm">{{ 'DASHBOARD.ORDENAR' | translate}}:</span>
     <div class="ordenacao-buttons">
-      <button class="btn btn-azul btn-small mr-5" (click)="sortField='amount'; sortAsc=!sortAsc">Valor</button>
-      <button class="btn btn-azul btn-small mr-5" (click)="sortField='type'; sortAsc=!sortAsc">Tipo</button>
-      <button class="btn btn-azul btn-small mr-5" (click)="sortField='date'; sortAsc=!sortAsc">Data</button>
+      <button class="btn btn-azul btn-small mr-5" (click)="sortField='amount'; sortAsc=!sortAsc">{{ 'DASHBOARD.VALOR' | translate}}</button>
+      <button class="btn btn-azul btn-small mr-5" (click)="sortField='type'; sortAsc=!sortAsc">{{ 'DASHBOARD.TIPO' | translate}}</button>
+      <button class="btn btn-azul btn-small mr-5" (click)="sortField='date'; sortAsc=!sortAsc">{{ 'DASHBOARD.DATA' | translate}}</button>
     </div>
   </section>
 
@@ -111,12 +111,12 @@
     }
     @placeholder {
       <div #loadButton class="loading-placeholder text-laranja mouse-pointer" >
-        Clique para ver a fatura do cartão de crédito
+        {{ 'DASHBOARD.VER_FATURAS' | translate }}
       </div>
     }
     @loading (minimum 2s) {
       <div class="loading-placeholder text-laranja mouse-pointer">
-        Carregando fatura do cartão de crédito...
+        {{ 'DASHBOARD.CARREGAR_FATURAS' | translate }}
       </div>
     }    
   </section>

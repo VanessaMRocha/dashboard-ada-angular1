@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
   selector: 'app-credit-card-invoice',
   imports: [ MatIcon, MatCardModule],
   templateUrl: './credit-card-invoice.component.html',
-  styleUrl: './credit-card-invoice.component.css'
+  styleUrl: './credit-card-invoice.component.css',
 })
 export class CreditCardInvoiceComponent {
 

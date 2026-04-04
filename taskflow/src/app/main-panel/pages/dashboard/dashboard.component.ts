@@ -16,6 +16,7 @@ import { TransfersService } from '../transfers/services/transfers.service';
 import { CreditCardInvoiceComponent } from './components/credit-card-invoice/credit-card-invoice.component';
 import { MatIcon } from '@angular/material/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,7 +30,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
     CommonModule,
     NegativeValuesPipe,
     CreditCardInvoiceComponent,
-    MatIcon
+    MatIcon,
+    TranslatePipe
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
